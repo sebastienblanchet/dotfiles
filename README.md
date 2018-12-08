@@ -1,2 +1,5 @@
 # dotfiles
-Personal dotfiles
+
+*Author: Sebastien Blanchet*
+
+## Contents
