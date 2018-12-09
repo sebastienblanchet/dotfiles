@@ -1,10 +1,8 @@
- 
 #   -------------------------------
 #   1.  ENVIRONMENT CONFIGURATION
 #   -------------------------------
 
-export PS1="\u @\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
-# export PS1="\w @ \h(\u) $"
+export PS1="\[\033[38;5;14m\]\u \[\033[32m\]\w\[\033[0;31m\]\$(parse_git_branch)\[\033[00m\] $ "
 export EDITOR=/usr/bin/vim
 export BLOCKSIZE=1k
 export CLICOLOR=1
@@ -75,7 +73,7 @@ gckbr()
 	git checkout -b "$1"
 }
 
-# Get current branch
+# Get current branch, used for PS1
 parse_git_branch() 
 {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
