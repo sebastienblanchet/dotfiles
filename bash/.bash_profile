@@ -139,3 +139,7 @@ direx(){
 	# fi
 	[ ! -d "$pwd/$1" ] && mkdir $1; echo \CREATED "$pwd/$1"|| \echo EXISTS "$pwd/$1"
 }
+
+texbib (){
+	pdflatex $1.tex ; bibtex $1 ; pdflatex $1.tex ; pdflatex $1.tex
+}
