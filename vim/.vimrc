@@ -1,33 +1,20 @@
-"SEBASTIEN BLANCHET VIMRC 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" @file .vimrc
+" @brief personal config
+" @author s3blanch@edu.uwaterloo.ca
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SETUP
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Don't try to be vi compatible
 set nocompatible
 
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
-
-" TODO: Load plugins here (pathogen or vundle)
-" if [ -e .vimrc ]; then mv .vimrc .vimrc_bak; fi
-" if [ -e .vim ]; then mv .vim .vim_bak; fi
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" This is the Vundle package, which can be found on GitHub.
-" For GitHub repos, you specify plugins using the
-" 'user/repository' format
-Plugin 'gmarik/vundle'
-
-" We could also add repositories with a ".git" extension
-Plugin 'scrooloose/nerdtree.git'
-
-" To get plugins from Vim Scripts, you can reference the plugin
-" by name as it appears on the site
-Plugin 'Buffergator'
-
-" Fuzzyfiner
-Plugin 'junegunn/fzf.vim'
-
 
 " Turn on syntax highlighting
 syntax on
@@ -35,11 +22,32 @@ syntax on
 " For plugins to load correctly
 filetype plugin indent on
 
-" TODO: Pick a leader key
-" let mapleader = ","
-
-" Security
+" Security, example in .C file, first line vim checks for initializations
+" /* vim: set ts=8 sw=4 tw=0 noet : */
 set modelines=0
+
+set encoding=utf-8
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use vim-plug simplest
+call plug#begin('~/.vim/plugged')
+" TODO: add plugins here
+call plug#end()
+
+runtime! macros/matchit.vim
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VISUAL
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" show current mode
+set showmode
+
+" Hybrid line numbers
+set number relativenumber
+
+set showmode
 
 " Show line numbers
 set number
@@ -47,79 +55,133 @@ set number
 " Show file stats
 set ruler
 
-" Blink cursor on error instead of beeping (grr)
+" Blink cursor on error instead of beepin
 set visualbell
 
-" Encoding
-set encoding=utf-8
+" Color scheme and set 256 colors
+colorscheme jellybeans
+set t_Co=256
+
+" Highlight current line
+set cursorline
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" EDITING
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set smarttab
+set backspace=indent,eol,start
 
 " Whitespace
 set wrap
 set textwidth=79
 set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+set tabstop=2 ""width of TAB character \ t
+set shiftwidth=2 "" indent width
+set softtabstop=2 "" number of colums for \ t
+set expandtab "" expand \ t to space
 set noshiftround
 
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
+" Visualize tables and eols
+set list
+set listchars=tab:▸\ ,eol:¬
+" set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
 
-" Allow hidden buffers
-set hidden
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MAPPINGS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set pastetoggle=<F2>
 
-" Rendering
-set ttyfast
+" Sublime like moving around
+nnoremap <S-Up> :m-2<CR>
+nnoremap <S-Down> :m+<CR>
+inoremap <S-Up> <Esc>:m-2<CR>
+inoremap <S-Down> <Esc>:m+<CR>
 
-" Status bar
+" Strip all trailing whitespace
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUS BAR
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set laststatus=2
+" from https://dustri.org/b/lightweight-and-sexy-status-bar-in-vim.html
+set statusline=
+set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ INSERT\ ':''}
+set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ RPLACE\ ':''}
+set statusline+=%#Cursor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+set statusline+=\ %n\           " buffer number
+set statusline+=%#Visual#       " colour
+set statusline+=%{&paste?'\ PASTE\ ':''}
+set statusline+=%{&spell?'\ SPELL\ ':''}
+set statusline+=%#CursorIM#     " colour
+set statusline+=%R                        " readonly flag
+set statusline+=%M                        " modified [+] flag
+set statusline+=%#Cursor#               " colour
+set statusline+=%#CursorLine#     " colour
+set statusline+=\ %t\                   " short file name
+set statusline+=%=                          " right align
+set statusline+=%#CursorLine#   " colour
+set statusline+=\ %Y\                   " file type
+set statusline+=%#CursorIM#     " colour
+set statusline+=\ %3l:%-2c\         " line + column
+set statusline+=%#Cursor#       " colour
+set statusline+=\ %3p%%\                " percentage
 
-" Last line
-set showmode
-set showcmd
 
-" Searching
-nnoremap / /\v
-vnoremap / /\v
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SEARCHING
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
 set showmatch
-map <leader><space> :let @/=''<cr> " clear search
-
-" Remap help key.
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-nnoremap <F1> :set invfullscreen<CR>
-vnoremap <F1> :set invfullscreen<CR>
-
-" Textmate holdouts
-
-" Formatting
-map <leader>q gqip
-
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
-
-" Uncomment this to enable by default:
-" set list " To enable by default
-" Or use your leader key + l to toggle on/off
-map <leader>l :set list!<CR> " Toggle tabs and EOL
 
 
-" Color scheme (terminal)
-" set t_Co=256
-" set background=dark
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
-" colorscheme solarized
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO
+" update following key bindings
+" " Cursor motion
+" set scrolloff=3
+" set matchpairs+=<:> " use % to jump between pairs
+
+" " Move up/down editor lines
+" nnoremap j gj
+" nnoremap k gk
+
+" " Allow hidden buffers
+" set hidden
+
+" " Rendering
+" set ttyfast
+
+" " Last line
+"set showmode
+"set showcmd
+
+" " Searching
+" nnoremap / /\v
+" vnoremap / /\v
+
+" map <leader><space> :let @/=''<cr> " clear search
+
+" set hlsearch
+" set incsearch
+" set ignorecase
+
+" nnoremap <F1> :set invfullscreen<CR>
+" vnoremap <F1> :set invfullscreen<CR>
+
+" " Formatting
+" map <leader>q gqip
+
+" " Uncomment this to enable by default:
+" " set list " To enable by default
+" " Or use your leader key + l to toggle on/off
+" map <leader>l :set list!<CR> " Toggle tabs and EOL
+

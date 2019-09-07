@@ -2,11 +2,11 @@
 #   1.  ENVIRONMENT CONFIGURATION
 #   -------------------------------
 
-export PS1="\[\033[38;5;14m\]\u \[\033[32m\]\w\[\033[0;31m\]\$(parse_git_branch)\[\033[00m\] $ "
+export PS1="\[\033[38;5;14m\]\u@\h \[\033[32m\]\w\[\033[0;31m\]\$(parse_git_branch)\[\033[00m\] $ "
 export EDITOR=/usr/bin/vim
 export BLOCKSIZE=1k
 export CLICOLOR=1
-
+export TERM='xterm-256color'
 
 #   -------------------------------
 #   2.  CUSTOM COMMMANDS
@@ -15,10 +15,13 @@ export CLICOLOR=1
 alias ~="cd ~"                              # ~: Go Home
 alias c='clear'                             # c: Clear terminal display
 alias cb='cd -'                             # cb: Go back
-alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
-alias rmf='rm -rf'							# remove
+alias b="cd .."
+alias l='ls -FGlAhp'                       # Preferred 'ls' implementation
+alias rmf='rm -rf'                          # remove
 alias res='cd ~/Documents/Git/Resume/res'
 alias resp='pdflatex Resume.tex'
+alias dev='cd ~/Documents/Git'
+alias vimup="vim ~/Documents/Git/dotfiles/vim/.vimrc"
 
 #   -------------------------------
 #   3.  GENERIC FUNCTIONS
@@ -54,6 +57,8 @@ alias gs="git status"
 alias ga="git add ."
 alias gp="git push"
 alias gpf="git push --force"
+alias grh="git reset --hard"
+alias gfa="git fetch --all"
 alias gh="git log --pretty=format:'%h' -n 1"
 alias gdl='git diff HEAD^ HEAD' # Get dif to last commit
 alias gcan='git commit --amend --no-edit' # Ammenf last commit
