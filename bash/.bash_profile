@@ -24,6 +24,8 @@ alias dev='cd ~/Documents/Git'
 alias bashup="vim ~/Documents/Git/dotfiles/bash/.bash_profile; source \
 ~/.bash_profile"
 alias vimup="vim ~/Documents/Git/dotfiles/vim/.vimrc"
+alias mongod="mongod --dbpath=/Users/sebblanchet/data/db"
+alias bp="source ~/.bash_profile"
 
 #   -------------------------------
 #   3.  GENERIC FUNCTIONS
@@ -66,9 +68,9 @@ alias gdl='git diff HEAD^ HEAD' # Get dif to last commit
 alias gdls='git diff HEAD^ HEAD --stat' # Get diff to last commit stats
 alias gcan='git commit --amend --no-edit' # Ammenf last commit
 alias gpfo='git push origin --force'
-alias gpot='git push origin $gitBranch --tags'
-alias gpo='git push origin $gitBranch'
-alias grho='git reset --hard origin $gitBranch'
+alias gpot='git push origin $(gitBranch) --tags'
+alias gpo='git push origin $(gitBranch)'
+alias grho='git reset --hard origin/$(gitBranch)'
 alias gsub='git submodule update --recursive --remote --merge --force'
 alias gamcan='ga; gcan; gpfo'
 
@@ -90,19 +92,26 @@ gckbr()
 # Get current branch, used for PS1
 parse_git_branch()
 {
-     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 gitBranch()
 {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
 }
 
 # All in one git add commit push
-gall() {
-    git add .; git commit -m "$1"; git push
+gall()
+{
+  git add .; git commit -m "$1"; git push
 }
 
-gTags() {
-    git add .; git commit -m "$1"; git tag -a "$2" -m "$1"; git push origin $(gitBranch) --tags
+gtp()
+{
+  git add .; git commit -m "$1"; git tag -a "$2" -m "$1"; git push origin $(gitBranch) --tags
+}
+
+gto()
+{
+  git add .; git commit -m "$1"; git tag -a "$2" -m "$1"; git push origin --tags
 }
